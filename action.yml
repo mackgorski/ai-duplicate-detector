@@ -28,6 +28,18 @@ inputs:
   issue-number:
     description: 'Specific issue number to check (if not triggered by issue event)'
     required: false
+  auto-label-enabled:
+    description: 'Enable automatic issue labeling'
+    required: false
+    default: 'false'
+  label-set:
+    description: 'JSON string array of labels to choose from'
+    required: false
+    default: '[]'
+  label-confidence-threshold:
+    description: 'Minimum confidence score to apply a label (0-1)'
+    required: false
+    default: '0.70'
 
 # Docker container approach
 runs:
@@ -39,4 +51,8 @@ runs:
     RELATED_ISSUE_THRESHOLD: ${{ inputs.related-issue-threshold }}
     EMBEDDING_MODEL: ${{ inputs.embedding-model }}
     MAX_ISSUES_TO_PROCESS: ${{ inputs.max-issues-to-process }}
-    ISSUE_NUMBER: ${{ inputs.issue-number }} 
+    ISSUE_NUMBER: ${{ inputs.issue-number }}
+  args:
+    - ${{ inputs.auto-label-enabled }}
+    - ${{ inputs.label-set }}
+    - ${{ inputs.label-confidence-threshold }}
