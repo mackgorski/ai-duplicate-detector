@@ -10,6 +10,7 @@ This GitHub Action automatically detects duplicate and related issues in your re
 - **Automated Issue Management**: Adds "duplicate" labels to identified duplicate issues, closes them, and marks them as "not planned"
 - **Sub-Issue Migration**: Automatically moves sub-issues from closed duplicate issues to the kept issue
 - **Issue Type Prioritization**: Intelligently decides which issue to keep open based on issue type priority
+- **Automatic Issue Labeling**: Applies relevant labels to issues based on content analysis
 - **Comprehensive Logging**: Detailed logging for troubleshooting and monitoring
 - **Open Issues Only**: Only processes open issues to avoid duplicating closed issues
 
@@ -62,6 +63,9 @@ Configure these in your workflow file:
 | `embedding-model` | OpenAI embedding model to use | text-embedding-3-large |
 | `max-issues-to-process` | Maximum number of issues to process in a single run | 100 |
 | `issue-number` | Specific issue number to check (if not triggered by issue event) | (Optional) |
+| `auto-label-enabled` | Enable automatic issue labeling | false |
+| `label-set` | JSON string array of labels to choose from | [] |
+| `label-confidence-threshold` | Minimum confidence score to apply a label (0-1) | 0.70 |
 
 ### Environment Variables (For Comprehensive Implementation)
 
@@ -246,6 +250,17 @@ Adjust the thresholds to fine-tune detection sensitivity:
 
 The processing delay is set to 3.5 minutes (210 seconds) to allow for additional edits before processing. To change this delay, modify the `sleep 210` value in your workflow file.
 
+### Automatic Issue Labeling
+
+The action can automatically apply labels to issues based on their content:
+
+1. **Enable Auto-Labeling**: Set `auto-label-enabled` to `true` in your workflow configuration.
+
+2. **Define Your Label Set**: Provide a JSON string array of labels to choose from:
+```yaml
+label-set: '["bug", "feature", "documentation", "enhancement", "question"]'
+```
+
 ## 🔍 Troubleshooting
 
 ### Common Issues
@@ -292,4 +307,4 @@ MIT
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request. 
+Contributions are welcome! Please feel free to submit a Pull Request.

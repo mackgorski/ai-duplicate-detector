@@ -53,6 +53,7 @@ from requests.exceptions import RequestException
 
 # Import the duplicate detector
 from duplicate_detector import DuplicateDetector, RELATED_ISSUE_THRESHOLD
+from .issue_labeler import IssueLabelClassifier
 
 # Setup logging
 logging.basicConfig(
@@ -1183,6 +1184,23 @@ These issues have similar content but were not classified as duplicates. You may
 """
     return comment
 
+def add_labels_to_issue(github_token, repo_owner, repo_name, issue_number, labels):
+    """Add labels to a GitHub issue."""
+    url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/issues/{issue_number}/labels"
+    headers = {
+        "Authorization": f"token {github_token}",
+        "Accept": "application/vnd.github.v3+json"
+    }
+    try:
+        response = requests.post(url, headers=headers, json=labels)
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        logging.error(f"Error adding labels to issue #{issue_number}: {str(e)}")
+        if hasattr(e.response, 'text'):
+            logging.error(f"Response: {e.response.text}")
+        return None
+
 def handle_related_issues(
     gh: Github,
     repo: Repository,
@@ -1411,4 +1429,4 @@ def main():
         sys.exit(1)
 
 if __name__ == "__main__":
-    main() 
+    main()
