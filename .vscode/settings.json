@@ -1,0 +1,11 @@
+{
+    "githubPullRequests.ignoredPullRequestBranches": [
+        "main"
+    ],
+    "cSpell.words": [
+        "cand",
+        "embedder",
+        "linalg",
+        "ndarray"
+    ]
+}

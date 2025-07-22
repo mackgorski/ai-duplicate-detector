@@ -20,7 +20,7 @@ This GitHub Action automatically detects duplicate and related issues in your re
 ### Prerequisites
 
 - GitHub repository with issues enabled
-- OpenAI API key
+- OpenAI API key or Azure OpenAI API key
 - Issue types in your repository (epic, task, sub-task) for prioritization when handling duplicates
 
 ### Installation
@@ -62,6 +62,9 @@ Configure these in your workflow file:
 | `embedding-model` | OpenAI embedding model to use | text-embedding-3-large |
 | `max-issues-to-process` | Maximum number of issues to process in a single run | 100 |
 | `issue-number` | Specific issue number to check (if not triggered by issue event) | (Optional) |
+| `azure-openai-endpoint` | Azure OpenAI endpoint (if using Azure) | (Optional) |
+| `azure-openai-deployment` | Azure OpenAI deployment name (if using Azure) | (Optional) |
+| `azure-openai-version` | Azure OpenAI API version (if using Azure, reference "Data plane - inference" from https://learn.microsoft.com/en-us/azure/ai-foundry/openai/reference) | (Optional) |
 
 ### Environment Variables (For Comprehensive Implementation)
 

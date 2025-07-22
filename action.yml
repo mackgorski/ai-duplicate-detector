@@ -28,6 +28,15 @@ inputs:
   issue-number:
     description: 'Specific issue number to check (if not triggered by issue event)'
     required: false
+  azure-openai-endpoint:
+    description: 'Your Azure OpenAI endpoint (e.g., https://<resource-name>.openai.azure.com)'
+    required: false
+  azure-openai-deployment:
+    description: 'The deployment name containing your model'
+    required: false
+  azure-openai-version:
+    description: 'Azure OpenAI API Version (reference "Data plane - inference" from https://learn.microsoft.com/en-us/azure/ai-foundry/openai/reference)'
+    required: false
 
 # Docker container approach
 runs:
@@ -39,4 +48,7 @@ runs:
     RELATED_ISSUE_THRESHOLD: ${{ inputs.related-issue-threshold }}
     EMBEDDING_MODEL: ${{ inputs.embedding-model }}
     MAX_ISSUES_TO_PROCESS: ${{ inputs.max-issues-to-process }}
-    ISSUE_NUMBER: ${{ inputs.issue-number }} 
+    ISSUE_NUMBER: ${{ inputs.issue-number }}
+    AZURE_OPENAI_ENDPOINT: ${{ inputs.azure-openai-endpoint }}
+    AZURE_OPENAI_DEPLOYMENT: ${{ inputs.azure-openai-deployment }}
+    AZURE_OPENAI_VERSION: ${{ inputs.azure-openai-version }}

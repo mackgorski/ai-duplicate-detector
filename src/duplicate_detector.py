@@ -38,7 +38,9 @@ import json
 import tiktoken
 import logging
 
+import os
 from openai import OpenAI
+from openai import AzureOpenAI
 import numpy as np
 
 from embedding_store import EmbeddingStore
@@ -80,10 +82,24 @@ class DuplicateDetector:
         Args:
             api_key (Optional[str]): OpenAI API key. If None, reads from environment.
         """
+
         self.api_key = api_key or os.environ["OPENAI_API_KEY"]
+        self.azure_endpoint = os.environ.get("AZURE_OPENAI_ENDPOINT")
+        self.azure_api_version = os.environ.get("AZURE_OPENAI_API_VERSION")
+        self.azure_deployment = os.environ.get("AZURE_OPENAI_DEPLOYMENT")
+
         self.store = EmbeddingStore()
         self.embedder = IssueEmbedder(api_key=self.api_key)
-        self.gpt_client = OpenAI(api_key=self.api_key)
+        # Support Azure OpenAI configuration
+        if self.azure_endpoint and self.azure_api_version and self.azure_deployment:
+            self.gpt_client = AzureOpenAI(
+                api_key=self.api_key,
+                azure_endpoint=self.azure_endpoint,
+                api_version=self.azure_api_version,
+                azure_deployment=self.azure_deployment
+            )
+        else:
+            self.gpt_client = OpenAI(api_key=self.api_key)
         
         # Thresholds for duplicate detection - read from environment variables or use defaults
         self.embedding_high_threshold = 0.95  # Above this, use embedding only
